@@ -47,7 +47,7 @@
 <!--                        | <a href="#">Run now</a>-->
                     </td>
 <!--                    <td>--><?php //print_r($cron); ?><!--</td>-->
-                    <td><?php esc_html_e( json_encode( $cron['cronalytics'] ) ); ?></td>
+                    <td><?php esc_html_e( isset($cron['cronalytics']) ? json_encode( $cron['cronalytics'] ) : '' ) ?></td>
                 </tr>
         <?php } ?>    
         </tbody>

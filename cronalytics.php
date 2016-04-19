@@ -61,7 +61,7 @@ final class Cronalytics {
 			$instance->setup_globals();
 			$instance->includes();
 			$instance->setup_actions();
-            $instance->enqueue();
+
 //            $instance->add_test_cron();
 		}
 
@@ -207,6 +207,8 @@ final class Cronalytics {
 		add_action( 'activate_'   . $this->basename, array( $this, 'activate' ) );
 		add_action( 'deactivate_' . $this->basename, array( $this, 'deactivate' ) );
 
+        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
+
         add_action( 'init',  array( $this, 'handle_post' ) );
         add_action( 'admin_menu',  array( $this, 'add_management_page' ) );
 
@@ -300,6 +302,11 @@ final class Cronalytics {
             foreach( $cron_list as $hook => $cron ) {
                 $id = array_keys($cron)[0];
                 $data = $cron[$id];
+
+                if ( ! $data['schedule'] ) {
+                    continue;
+                }
+
                 $add_cron = array(
                     'hook' => $hook,
                     'id' => $id,
